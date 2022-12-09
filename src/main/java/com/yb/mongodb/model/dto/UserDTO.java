@@ -1,13 +1,12 @@
-package com.yb.mongodb.model;
+package com.yb.mongodb.model.dto;
+
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
-
 @Getter @Setter
-public class ProjectDTO {
+public class UserDTO {
 
     private String id;
 
@@ -15,6 +14,4 @@ public class ProjectDTO {
 
     @NotNull
     private String company;
-
-    private Set<String> users;
 }

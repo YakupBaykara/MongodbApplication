@@ -1,14 +1,18 @@
 package com.yb.mongodb.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
-@Document
 @Getter
 @Setter
+@ToString
+@EqualsAndHashCode
+@Document
 public class User {
 
     @Id

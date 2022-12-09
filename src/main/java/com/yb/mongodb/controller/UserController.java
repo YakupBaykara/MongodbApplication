@@ -1,10 +1,6 @@
 package com.yb.mongodb.controller;
 
-import com.yb.mongodb.model.Company;
-import com.yb.mongodb.model.User;
-import com.yb.mongodb.model.UserDTO;
-import com.yb.mongodb.repository.CompanyRepository;
-import com.yb.mongodb.repository.UserRepository;
+import com.yb.mongodb.model.dto.UserDTO;
 import com.yb.mongodb.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")

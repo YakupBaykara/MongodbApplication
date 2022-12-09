@@ -1,7 +1,7 @@
 package com.yb.mongodb.service;
 
 import com.yb.mongodb.model.Company;
-import com.yb.mongodb.model.CompanyDTO;
+import com.yb.mongodb.model.dto.CompanyDTO;
 import com.yb.mongodb.repository.CompanyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;

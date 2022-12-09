@@ -1,4 +1,4 @@
-package com.yb.mongodb.model;
+package com.yb.mongodb.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;

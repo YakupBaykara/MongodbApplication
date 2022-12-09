@@ -2,7 +2,7 @@ package com.yb.mongodb.service;
 
 import com.yb.mongodb.model.Company;
 import com.yb.mongodb.model.Project;
-import com.yb.mongodb.model.ProjectDTO;
+import com.yb.mongodb.model.dto.ProjectDTO;
 import com.yb.mongodb.model.User;
 import com.yb.mongodb.repository.CompanyRepository;
 import com.yb.mongodb.repository.ProjectRepository;

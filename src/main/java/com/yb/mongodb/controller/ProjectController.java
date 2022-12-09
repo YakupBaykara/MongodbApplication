@@ -1,6 +1,6 @@
 package com.yb.mongodb.controller;
 
-import com.yb.mongodb.model.ProjectDTO;
+import com.yb.mongodb.model.dto.ProjectDTO;
 import com.yb.mongodb.service.ProjectService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
