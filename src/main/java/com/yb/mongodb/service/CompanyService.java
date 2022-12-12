@@ -1,5 +1,6 @@
 package com.yb.mongodb.service;
 
+import com.yb.mongodb.mapper.CompanyMapper;
 import com.yb.mongodb.model.Company;
 import com.yb.mongodb.model.dto.CompanyDTO;
 import com.yb.mongodb.repository.CompanyRepository;
@@ -16,43 +17,33 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CompanyService {
     private CompanyRepository companyRepository;
+    private CompanyMapper companyMapper;
     public List<CompanyDTO> findAll() {
         return  companyRepository.findAll(Sort.by("id"))
                 .stream()
-                .map(company -> mapToDTO(company, new CompanyDTO()))
+                .map(company -> companyMapper.mapToDTO(company, new CompanyDTO()))
                 .collect(Collectors.toList());
     }
 
     public CompanyDTO get(String id) {
         return companyRepository.findById(id)
-                .map(company -> mapToDTO(company, new CompanyDTO()))
+                .map(company -> companyMapper.mapToDTO(company, new CompanyDTO()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     public String create(CompanyDTO companyDTO) {
         Company company = new Company();
-        mapToEntity(companyDTO, company);
+        companyMapper.mapToEntity(companyDTO, company);
         company.setId(companyDTO.getId());
         return companyRepository.save(company).getId();
     }
     public void update(String id, CompanyDTO companyDTO) {
         Company company = companyRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        mapToEntity(companyDTO, company);
+        companyMapper.mapToEntity(companyDTO, company);
         companyRepository.save(company);
     }
     public void delete(String id) {
         companyRepository.deleteById(id);
-    }
-
-    // MAPPER ISLEMLERI
-    private CompanyDTO mapToDTO(Company company, CompanyDTO companyDTO) {
-        companyDTO.setId(company.getId());
-        companyDTO.setName(company.getName());
-        return companyDTO;
-    }
-    private Company mapToEntity(CompanyDTO companyDTO, Company company) {
-        company.setName(companyDTO.getName());
-        return company;
     }
 }

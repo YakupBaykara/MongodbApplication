@@ -1,5 +1,6 @@
 package com.yb.mongodb.service;
 
+import com.yb.mongodb.mapper.UserMapper;
 import com.yb.mongodb.model.Company;
 import com.yb.mongodb.model.User;
 import com.yb.mongodb.model.dto.UserDTO;
@@ -18,52 +19,48 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserService {
     private UserRepository userRepository;
-    private CompanyRepository companyRepository;
+    private UserMapper userMapper;
     public List<UserDTO> findAll() {
         return userRepository.findAll(Sort.by("id"))
                 .stream()
-                .map(user -> mapToDTO(user, new UserDTO()))
+                .map(user -> userMapper.mapToDTO(user, new UserDTO()))
                 .collect(Collectors.toList());
     }
 
     public UserDTO get(String id) {
         return userRepository.findById(id)
-                .map(user -> mapToDTO(user, new UserDTO()))
+                .map(user -> userMapper.mapToDTO(user, new UserDTO()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     public String create(UserDTO userDTO) {
         User user = new User();
-        mapTOEntity(userDTO, user);
+        userMapper.mapToEntity(userDTO, user);
         user.setId(userDTO.getId());
         return userRepository.save(user).getId();
     }
     public void update(String id, UserDTO userDTO) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        mapTOEntity(userDTO, user);
+        userMapper.mapToEntity(userDTO, user);
         userRepository.save(user);
+    }
+
+    public List<UserDTO> getByCompanyId(String companyId) {
+        List<User> users = userRepository.findByCompanyId(companyId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        List<UserDTO> userDTOs = users.stream()
+                .map(user -> userMapper.mapToDTO(user, new UserDTO()))
+                .collect(Collectors.toList());
+        return userDTOs;
+    }
+
+    public Integer getCompanyUsersCount(String companyId) {
+        return userRepository.countByCompanyId(companyId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     public void delete(String id) {
         userRepository.deleteById(id);
-    }
-
-    // MAPPER ISLEMLERI
-    private UserDTO mapToDTO(User user, UserDTO userDTO) {
-        userDTO.setId(user.getId());
-        userDTO.setName(user.getName());
-        userDTO.setCompany(user.getCompany().getId());
-        return userDTO;
-    }
-
-    private User mapTOEntity(UserDTO userDTO, User user) {
-        user.setName(userDTO.getName());
-
-        Company company = userDTO.getCompany() == null ? null : companyRepository.findById(userDTO.getCompany())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        user.setCompany(company);
-
-        return user;
     }
 }

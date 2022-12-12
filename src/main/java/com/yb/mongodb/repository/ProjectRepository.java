@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface ProjectRepository extends MongoRepository<Project, String> {
 
+    List<Project> findAllByCompanyId(String companyId);
+    List<Project> findAllByUsersId(String userId);
     List<Project> findAllByCompanyIdAndUsersId(final String companyId, final String userId);
 }

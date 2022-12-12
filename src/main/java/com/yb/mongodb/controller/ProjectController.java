@@ -55,6 +55,15 @@ public class ProjectController {
         projectService.delete(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/company/{companyId}")
+    public ResponseEntity<List<ProjectDTO>> getProjectsByCompanyId(@PathVariable String companyId) {
+        return ResponseEntity.ok(projectService.findAllByCompanyId(companyId));
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<ProjectDTO>> getProjectsByUserId(@PathVariable String userId) {
+        return ResponseEntity.ok(projectService.findAllByUserId(userId));
+    }
 
     @GetMapping("/company/{companyId}/user/{userId}")
     public ResponseEntity<List<ProjectDTO>> getProjectByCompanyIdAndUserId(

@@ -43,4 +43,12 @@ public class UserController {
         userService.delete(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/company/{companyId}")
+    public ResponseEntity<List<UserDTO>> getUsersByCompanyId(@PathVariable String companyId) {
+        return ResponseEntity.ok(userService.getByCompanyId(companyId));
+    }
+    @GetMapping("/count/company/{companyId}")
+    public ResponseEntity<Integer> getUsersCount(@PathVariable String companyId) {
+        return ResponseEntity.ok(userService.getCompanyUsersCount(companyId));
+    }
 }
