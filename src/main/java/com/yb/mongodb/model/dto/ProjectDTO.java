@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter @Setter
@@ -16,5 +17,5 @@ public class ProjectDTO {
     @NotNull
     private String company;
 
-    private Set<String> users;
+    private Set<String> users = new HashSet<>();
 }

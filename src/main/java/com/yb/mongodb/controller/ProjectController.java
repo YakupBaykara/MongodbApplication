@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/projects")
@@ -38,15 +39,27 @@ public class ProjectController {
         return ResponseEntity.ok().build();
     }
 
+    @PatchMapping("/{id}/adduser")
+    public ResponseEntity<Void> addProjectUsers(@PathVariable String id, @RequestBody Set<String> userIdList) {
+        projectService.addUsers(id, userIdList);
+        return ResponseEntity.ok().build();
+    }
+    @PatchMapping("/{id}/removeuser")
+    public ResponseEntity<Void> removeProjectUsers(@PathVariable String id, @RequestBody Set<String> userIdList) {
+        projectService.removeUsers(id, userIdList);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProject(@PathVariable String id) {
         projectService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/company/{id}/user/{userId}")
+    @GetMapping("/company/{companyId}/user/{userId}")
     public ResponseEntity<List<ProjectDTO>> getProjectByCompanyIdAndUserId(
-            @PathVariable String id, @PathVariable String userId) {
-        return ResponseEntity.ok(projectService.findAllByCompanyIdAndUsersId(id, userId));
+            @PathVariable String companyId, @PathVariable String userId) {
+        return ResponseEntity.ok(projectService.findAllByCompanyIdAndUsersId(companyId, userId));
     }
+
 }

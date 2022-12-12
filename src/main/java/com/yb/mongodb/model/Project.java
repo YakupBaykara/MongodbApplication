@@ -1,5 +1,7 @@
 package com.yb.mongodb.model;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import lombok.EqualsAndHashCode;
@@ -26,5 +28,5 @@ public class Project {
     private Company company;
 
     @DocumentReference(lazy = true)
-    private Set<User> users;
+    private Set<User> users =  new HashSet<>();
 }

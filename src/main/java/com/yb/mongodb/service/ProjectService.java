@@ -50,12 +50,27 @@ public class ProjectService {
         projectRepository.save(project);
     }
 
+    public void addUsers(String id, Set<String> userIdList) {
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Set<User> users = iterableToSet(userRepository.findAllById(userIdList));
+        project.getUsers().addAll(users);
+        projectRepository.save(project);
+    }
+    public void removeUsers(String id, Set<String> userIdList) {
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Set<User> users = iterableToSet(userRepository.findAllById(userIdList));
+        project.getUsers().removeAll(users);
+        projectRepository.save(project);
+    }
+
     public void delete(String id) {
         projectRepository.deleteById(id);
     }
 
-    public List<ProjectDTO> findAllByCompanyIdAndUsersId(String id, String userId) {
-        List<Project> projects =  projectRepository.findAllByCompanyIdAndUsersId(id, userId);
+    public List<ProjectDTO> findAllByCompanyIdAndUsersId(String companyId, String userId) {
+        List<Project> projects =  projectRepository.findAllByCompanyIdAndUsersId(companyId, userId);
         List<ProjectDTO> projectDTOs = projects.stream()
                 .map(project -> mapToDTO(project, new ProjectDTO()))
                 .collect(Collectors.toList());
@@ -89,7 +104,7 @@ public class ProjectService {
                     projectDTO.getUsers() == null ? Collections.emptySet() : projectDTO.getUsers()));
             if(users.size() != (projectDTO.getUsers() == null ? 0 : projectDTO.getUsers().size()))
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "some of users not found");
-            project.setUsers(users.stream().collect(Collectors.toSet()));
+            project.getUsers().addAll(users.stream().collect(Collectors.toSet()));
 
             return project;
         }
