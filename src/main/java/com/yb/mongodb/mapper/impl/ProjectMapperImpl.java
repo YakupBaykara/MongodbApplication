@@ -27,18 +27,18 @@ public class ProjectMapperImpl implements ProjectMapper {
     public Project mapToEntity(ProjectDTO projectDTO, Project project) {
         project.setName(projectDTO.getName());
 
-        // Set Company
+        // SET COMPANY
         Company company = projectDTO.getCompany() == null
                 ? null : companyRepository.findById(projectDTO.getCompany())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         project.setCompany(company);
 
-        // Set Users
+        // SET USERS
         Set<User> users = iterableToSet(userRepository.findAllById(
                 projectDTO.getUsers() == null ? Collections.emptySet() : projectDTO.getUsers()));
         if(users.size() != (projectDTO.getUsers() == null ? 0 : projectDTO.getUsers().size()))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "some of users not found");
-        project.getUsers().addAll(users.stream().collect(Collectors.toSet()));
+        project.getUsers().addAll(users);
 
         return project;
     }

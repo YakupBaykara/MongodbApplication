@@ -49,6 +49,14 @@ public class ProjectService {
         projectRepository.save(project);
     }
 
+    public void addUser(String id, String userId) {
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        project.getUsers().add(user);
+        projectRepository.save(project);
+    }
     public void addUsers(String id, Set<String> userIdList) {
         Project project = projectRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

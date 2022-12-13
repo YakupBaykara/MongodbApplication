@@ -48,7 +48,17 @@ public class UserController {
         return ResponseEntity.ok(userService.getByCompanyId(companyId));
     }
     @GetMapping("/count/company/{companyId}")
-    public ResponseEntity<Integer> getUsersCount(@PathVariable String companyId) {
+    public ResponseEntity<Integer> getUsersCountByCompanyId(@PathVariable String companyId) {
         return ResponseEntity.ok(userService.getCompanyUsersCount(companyId));
+    }
+
+    @GetMapping("/project/{projectId}")
+    public ResponseEntity<List<UserDTO>> getUsersByProjectId(@PathVariable String projectId) {
+        return ResponseEntity.ok(userService.getByProjectId(projectId));
+    }
+
+    @GetMapping("/count/project/{projectId}")
+    public ResponseEntity<Integer> getUsersCountByProjectId(@PathVariable String projectId) {
+        return ResponseEntity.ok(userService.getProjectUsersCount(projectId));
     }
 }

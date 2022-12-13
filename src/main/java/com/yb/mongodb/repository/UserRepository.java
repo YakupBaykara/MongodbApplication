@@ -12,4 +12,6 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     Optional<List<User>> findByCompanyId(String companyId);
     Optional<Integer> countByCompanyId(String companyId);
+    Optional<List<User>> findByProjectsId(String projectId);
+    Optional<Integer> countByProjectsId(String projectId);
 }
