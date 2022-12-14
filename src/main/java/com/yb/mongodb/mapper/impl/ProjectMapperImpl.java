@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +27,10 @@ public class ProjectMapperImpl implements ProjectMapper {
     @Override
     public Project mapToEntity(ProjectDTO projectDTO, Project project) {
         project.setName(projectDTO.getName());
+        project.setDescription(projectDTO.getDescription());
+        project.setOwnerId(projectDTO.getOwnerId());
+        project.setImagePath(projectDTO.getImagePath());
+        project.setLastUpdatedAt(LocalDateTime.now());
 
         // SET COMPANY
         Company company = projectDTO.getCompany() == null
@@ -47,12 +52,18 @@ public class ProjectMapperImpl implements ProjectMapper {
     public ProjectDTO mapToDTO(Project project, ProjectDTO projectDTO) {
         projectDTO.setId(project.getId());
         projectDTO.setName(project.getName());
+        projectDTO.setDescription(project.getDescription());
+        projectDTO.setOwnerId(project.getOwnerId());
+        projectDTO.setImagePath(project.getImagePath());
+        projectDTO.setLastUpdatedAt(project.getLastUpdatedAt());
+
         projectDTO.setCompany(project.getCompany().getId());
 
         projectDTO.setUsers(project.getUsers() == null ? null : project.getUsers()
                 .stream()
                 .map(user -> user.getId())
                 .collect(Collectors.toSet()));
+
         return projectDTO;
     }
 

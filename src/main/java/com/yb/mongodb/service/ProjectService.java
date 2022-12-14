@@ -57,22 +57,30 @@ public class ProjectService {
         project.getUsers().add(user);
         projectRepository.save(project);
     }
-    public void addUsers(String id, Set<String> userIdList) {
+ /*   public void addUsers(String id, Set<String> userIdList) {
         Project project = projectRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         Set<User> users = userRepository.findAllById(userIdList)
                 .stream().collect(Collectors.toSet());
         project.getUsers().addAll(users);
         projectRepository.save(project);
-    }
-    public void removeUsers(String id, Set<String> userIdList) {
+    } */
+     public void removeUser(String id, String userId) {
+         Project project = projectRepository.findById(id)
+                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+         User user = userRepository.findById(userId)
+                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+         project.getUsers().remove(user);
+         projectRepository.save(project);
+     }
+/*    public void removeUsers(String id, Set<String> userIdList) {
         Project project = projectRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         Set<User> users = userRepository.findAllById(userIdList)
                 .stream().collect(Collectors.toSet());
         project.getUsers().removeAll(users);
         projectRepository.save(project);
-    }
+    } */
 
     public void delete(String id) {
         projectRepository.deleteById(id);

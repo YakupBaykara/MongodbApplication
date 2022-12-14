@@ -41,12 +41,18 @@ public class ProjectController {
 
     @PatchMapping("/{id}/adduser")
     public ResponseEntity<Void> addProjectUsers(@PathVariable String id, @RequestBody Set<String> userIdList) {
-        projectService.addUsers(id, userIdList);
+        for (String userId : userIdList) {
+            projectService.addUser(id, userId);
+        }
+//        projectService.addUsers(id, userIdList);
         return ResponseEntity.ok().build();
     }
     @PatchMapping("/{id}/removeuser")
     public ResponseEntity<Void> removeProjectUsers(@PathVariable String id, @RequestBody Set<String> userIdList) {
-        projectService.removeUsers(id, userIdList);
+        for (String userId : userIdList) {
+            projectService.removeUser(id, userId);
+        }
+//        projectService.removeUsers(id, userIdList);
         return ResponseEntity.ok().build();
     }
 
