@@ -11,4 +11,5 @@ public interface ModelRepository extends MongoRepository<Model, String> {
 
     List<Model> findByProjectId(String projectId);
     List<Model> findByUserId(String userId);
+    List<Model> findByCompanyId(String companyId);
 }
